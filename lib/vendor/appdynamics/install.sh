@@ -22,6 +22,7 @@ then
   APPDYNAMICS_AGENT_ACCOUNT_NAME=$(echo "${VCAP_SERVICES-}" | $JQ --raw-output '.['"$key"'][0] | .credentials | .["account-name"] ')
   
   APPDYNAMICS_CONTROLLER_SSL_ENABLED=$(echo "${VCAP_SERVICES-}" | $JQ --raw-output '.['"$key"'][0] | .credentials | .["ssl-enabled"] ')
+  APPDYNAMICS_AGENT_LIBAGENT=$(echo "${VCAP_SERVICES-}" | $JQ --raw-output '.['"$key"'][0] | .credentials | .["libagent"] ')
   APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=$(echo "${VCAP_SERVICES-}" | $JQ --raw-output '.['"$key"'][0] | .credentials | .["account-access-key"] ')
   APPDYNAMICS_AGENT_APPLICATION_NAME=$(echo "${VCAP_APPLICATION-}" | $JQ --raw-output .application_name)
   APPDYNAMICS_AGENT_TIER_NAME=$(echo "${VCAP_APPLICATION-}" | $JQ --raw-output .application_name)
@@ -46,6 +47,9 @@ then
     fi
     if [ ! -z "${APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY-}" ]; then
       echo "export APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY=$APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY" >> $SETUP_APPDYNAMICS
+    fi
+    if [ ! -z "${APPDYNAMICS_AGENT_LIBAGENT-}" ]; then
+      echo "export APPDYNAMICS_AGENT_LIBAGENT=$APPDYNAMICS_AGENT_LIBAGENT" >> $SETUP_APPDYNAMICS
     fi
     if [ ! -z "${APPDYNAMICS_AGENT_APPLICATION_NAME-}" ]; then
       echo "export APPDYNAMICS_AGENT_APPLICATION_NAME=$APPDYNAMICS_AGENT_APPLICATION_NAME" >> $SETUP_APPDYNAMICS
